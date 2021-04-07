@@ -24,6 +24,9 @@ namespace ComClient
             InitializeComponent();
         }
 
+        string init_IP = "";
+        int init_Port = 0;
+
         private void btbSend_Click(object sender, EventArgs e)
         {
             Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -34,6 +37,26 @@ namespace ComClient
 
             int ret = sock.Send(Encoding.Default.GetBytes(tbClient.Text));
             if (ret > 0) sbMessage.Text = $"{ret} byte(s) send success.";
+        }
+
+        private void FormClient_Load(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder(512);
+            GetPrivateProfileString("Comm","IP","127.0.0.1", sb, 512, ".\\ComClient.ini"); init_IP = sb.ToString();     // Section [Comm]   , Key [IP   Port]  , ........ FileName  : ComClient.ini
+            GetPrivateProfileString("Comm","Port","9001", sb, 512, ".\\ComClient.ini"); init_Port = int.Parse(sb.ToString());     
+            tbIP.Text = init_IP;
+            tbPort.Text = $"{init_Port}";
+        }
+
+        private void FormClient_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            WritePrivateProfileString("Comm", "IP", tbIP.Text, ".\\ComClient.ini");
+            WritePrivateProfileString("Comm","Port", tbPort.Text, ".\\ComClient.ini");     // init_Port = int.Parse(sb.ToString());
+            WritePrivateProfileString("Form", "LocX", $"{Location.X}", ".\\ComClient.ini");
+            WritePrivateProfileString("Form", "LocY", $"{Location.Y}", ".\\ComClient.ini");
+            WritePrivateProfileString("Form", "SizeX", $"{Size.Width}", ".\\ComClient.ini");
+            WritePrivateProfileString("Form", "SizeY", $"{Size.Height}", ".\\ComClient.ini");
+
         }
     }
 }

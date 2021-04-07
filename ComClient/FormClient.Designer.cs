@@ -30,14 +30,14 @@ namespace ComClient
         private void InitializeComponent()
         {
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.sbMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tbClient = new System.Windows.Forms.TextBox();
-            this.tbIP = new System.Windows.Forms.TextBox();
-            this.tbPort = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.btbSend = new System.Windows.Forms.Button();
-            this.sbMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tbPort = new System.Windows.Forms.TextBox();
+            this.tbIP = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -55,6 +55,16 @@ namespace ComClient
             this.statusStrip1.Size = new System.Drawing.Size(800, 32);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // sbMessage
+            // 
+            this.sbMessage.AutoSize = false;
+            this.sbMessage.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.sbMessage.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.sbMessage.Name = "sbMessage";
+            this.sbMessage.Size = new System.Drawing.Size(200, 25);
             // 
             // menuStrip1
             // 
@@ -97,29 +107,6 @@ namespace ComClient
             this.tbClient.Size = new System.Drawing.Size(471, 391);
             this.tbClient.TabIndex = 0;
             // 
-            // tbIP
-            // 
-            this.tbIP.Location = new System.Drawing.Point(38, 46);
-            this.tbIP.Name = "tbIP";
-            this.tbIP.Size = new System.Drawing.Size(129, 28);
-            this.tbIP.TabIndex = 0;
-            // 
-            // tbPort
-            // 
-            this.tbPort.Location = new System.Drawing.Point(164, 46);
-            this.tbPort.Name = "tbPort";
-            this.tbPort.Size = new System.Drawing.Size(100, 28);
-            this.tbPort.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(93, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 18);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Server IP Port";
-            // 
             // btbSend
             // 
             this.btbSend.Location = new System.Drawing.Point(25, 91);
@@ -130,17 +117,30 @@ namespace ComClient
             this.btbSend.UseVisualStyleBackColor = true;
             this.btbSend.Click += new System.EventHandler(this.btbSend_Click);
             // 
-            // sbMessage
+            // label1
             // 
-            this.sbMessage.AutoSize = false;
-            this.sbMessage.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.sbMessage.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.sbMessage.Name = "sbMessage";
-            this.sbMessage.Size = new System.Drawing.Size(200, 25);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(93, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(120, 18);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Server IP Port";
             // 
-            // Form1
+            // tbPort
+            // 
+            this.tbPort.Location = new System.Drawing.Point(164, 46);
+            this.tbPort.Name = "tbPort";
+            this.tbPort.Size = new System.Drawing.Size(100, 28);
+            this.tbPort.TabIndex = 1;
+            // 
+            // tbIP
+            // 
+            this.tbIP.Location = new System.Drawing.Point(38, 46);
+            this.tbIP.Name = "tbIP";
+            this.tbIP.Size = new System.Drawing.Size(129, 28);
+            this.tbIP.TabIndex = 0;
+            // 
+            // FormClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -149,8 +149,10 @@ namespace ComClient
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "FormClient";
             this.Text = "Tcp Client";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormClient_FormClosing);
+            this.Load += new System.EventHandler(this.FormClient_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
