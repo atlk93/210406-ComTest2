@@ -49,6 +49,7 @@ namespace ComClient
             GetPrivateProfileString("Form", "LocY", $"0", sb, 512, ".\\ComClient.ini"); y1 = int.Parse(sb.ToString());
             GetPrivateProfileString("Form", "SizeX", $"500", sb, 512, ".\\ComClient.ini"); x2 = int.Parse(sb.ToString());
             GetPrivateProfileString("Form", "SizeY", $"500", sb, 512, ".\\ComClient.ini"); y2 = int.Parse(sb.ToString());
+            GetPrivateProfileString("Form", "Spliter", $"300", sb, 512, ".\\ComClient.ini"); splitContainer1.SplitterDistance = int.Parse(sb.ToString());
 
             Location = new Point(x1, y1);
             Size = new Size(x2, y2);
@@ -64,7 +65,7 @@ namespace ComClient
             WritePrivateProfileString("Form", "LocY", $"{Location.Y}", ".\\ComClient.ini");
             WritePrivateProfileString("Form", "SizeX", $"{Size.Width}", ".\\ComClient.ini");
             WritePrivateProfileString("Form", "SizeY", $"{Size.Height}", ".\\ComClient.ini");
-
+            WritePrivateProfileString("Form", "Spliter", $"{splitContainer1.SplitterDistance}", ".\\ComClient.ini");
         }
     }
 }
