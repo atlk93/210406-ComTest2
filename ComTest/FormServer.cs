@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -18,84 +19,94 @@ namespace ComTest
         {
             InitializeComponent();
         }
-
-        private void btnStart_Click(object sender, EventArgs e)
+        delegate void cbAddText(string str);    // string str을 인수로 받아서 tbServer에 출력하는 콜백 함수
+        //invoke
+        void AddText(string str)    // Thread 내부에서 호출될 함수 sbServer 출력
         {
-            //  1. 무한 수신 대기 Waiting
-            //  2. 기존 이벤트 처리 : 
-            //  3. 외부 접속 요청 수신시 해당 요청 처리
-            if (thread == null)
+            if (tbServer.InvokeRequired)
             {
-                thread = new Thread(ServerProcess);  // Thread 선언
-                thread.Start();
+                cbAddText at = new cbAddText(AddText);
+                object[] oArr = { str };
+                Invoke(at, oArr);
+                //Invoke(at, new object[] { str });
             }
             else
             {
-                thread.Resume();
+                tbServer.Text += str;   // Thread에서 수행해야 할 본래 작업
             }
-            sbServerMessage.Text = "Thread on Running.";
-            timer1.Enabled = true;
-            // ServerProcess();
-        }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            thread.Suspend();
-            if (thread.IsAlive) sbServerMessage.Text = "Thread Alived.";
-            else sbServerMessage.Text = "Thread not Alived.";
         }
 
         Thread thread = null;
         TcpListener listener = null;
-        string MainMsg; // tbServer.Text
-        byte[] bArr = new byte[200];
+        string mainMsg = "";
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            if (thread == null)
+            {
+                thread = new Thread(ServerProcess);
+                thread.Start();
+            }
+            timer1.Start();
+            sbServerMessage.Text = "Listener started..";
+            AddText($"ServerProcess now startd... Open Port is {tbServerPort}.");
+        }
 
-        private void ServerProcess()
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            thread.Abort(); //thread.Suspend(); thread.Resume();
+            thread = null;
+            timer1.Stop();
+            sbServerMessage.Text = "Server stopped..";
+        }
+
+        void ServerProcess()
         {
             while (true)
             {
-                if(listener == null) listener = new TcpListener(int.Parse(tbServerPort.Text));
-                listener.Start();       // listener는 계속 수행 --- Stop 명령 까지
-//                sbServerMessage.Text = "Listening....";
-//                Invalidate();       // == this.invalidate();
-                if(listner.Pending())     // 현재 대기중인 요청이 있는가?
+                if (listener == null)
                 {
-                    TcpClient tcp = listener.AcceptTcpClient();     // 외부로부터의 접속 요청 수신 // Tcp Type Socket 블로킹(Blocking) 논(Non) 블로킹
-//                   Socket sock = listener.AcceptSocket();
-//                   sbServerMessage.Text = "Connected";
-//                   sbServerLabel2.Text = "Connected";
-                    NetworkStream ns = tcp.GetStream();
-                    while (ns.DataAvailable)
-                    {
-                        ns.Read(bArr, 0, 200);
-                        MainMsg += Encoding.Default.GetString(bArr);
-                    }
+                    listener = new TcpListener(int.Parse(tbServerPort.Text));
+                    listener.Start();
                 }
-                listener.Stop();
+                if (listener.Pending())             // Non-Blocking Method
+                {
+                    ////TcpClient tcp = listener.AcceptTcpClient();     // Blocking Method
+
+                    //Socket sock = listener.AcceptSocket();        // Mission : TcpClinet 가 아닌 Socket 을 이용해서 Accept 및 입력 stream 처리
+
+                    //byte[] bArr = new byte[200];
+                    //sock.Receive(bArr, 0, 200);
+                    //EndPoint ep = tcp.Client.RemoteEndPoint;
+                    //sbServerLabel2.Text = ep.ToString();    //xxx.xxx.xxx.xxx   :xxxx
+                    //NetworkStream ns = tcp.GetStream();
+                    //while (ns.DataAvailable)        // ns에 읽을 data가 있다면 진입
+                    //{
+                    //    int n = ns.Read(bArr, 0, 200);
+                    //    //tbServer.Text += Encoding.Default.GetString(bArr, 0, n);    // Cross-thread error
+                    //    //mainMsg += Encoding.Default.GetString(bArr, 0, n);    // Cross-thread error
+                    //    AddText(Encoding.Default.GetString(bArr, 0, n));
+                    //}
+
+                    Socket sock = listener.AcceptSocket();        // Mission : TcpClinet 가 아닌 Socket 을 이용해서 Accept 및 입력 stream 처리
+                    byte[] bArr = new byte[sock.Available];
+                    int n = sock.Receive(bArr);
+                    AddText(Encoding.Default.GetString(bArr, 0, n));
+
+                    IPEndPoint ep = (IPEndPoint)sock.RemoteEndPoint;      // 127.0.0.1:76543
+                    sbServerLabel2.Text = $"{ep.Address}:{ep.Port}";
+                }
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)  // Send 1 packet : 통신 메세지 단위 1024Byte ~= 1K LTE
+        private void timer1_Tick(object sender, EventArgs e)    //  1/1000 초 단위로 tick 발생
         {
-            //  1.  Socket 생성 : 주소가 없음
-            //  2.  Socket Open - Conection 수립 - 주소 부여
-            //  3.  메세지 전송 : Message - 문자열 외에 이미지나 동영상도 가능, 단 양측이 서로 약속된 규악에 의해서... => 프로토콜 제정
-            Socket sock = new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);    // TCP : 수신 확인      UDP : 수신 확인 없음(방송)
-            sock.Connect(tbIP.Text, int.Parse(tbPort.Text));
-            string str = tbClient.Text;
-            byte[] bArr = Encoding.Default.GetBytes(str);       //  char[]  ==  string
-
-            sock.Send(bArr);
+            tbServer.Text += mainMsg;
+            mainMsg = "";
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void FormServer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            tbServer.Text = MainMsg;
-        }
-
-        private void FormServer_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            thread.Abort();
+            thread.Abort(); // Thread 종료
         }
     }
 }

@@ -31,20 +31,20 @@ namespace ComTest
         {
             this.components = new System.ComponentModel.Container();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.sbServerMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sbServerLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tbServer = new System.Windows.Forms.TextBox();
             this.tbClient = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.btnSend = new System.Windows.Forms.Button();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.tbIP = new System.Windows.Forms.TextBox();
             this.btnStart = new System.Windows.Forms.Button();
             this.tbServerPort = new System.Windows.Forms.TextBox();
-            this.sbServerMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.sbServerLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnStop = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -67,6 +67,26 @@ namespace ComTest
             this.statusStrip1.Size = new System.Drawing.Size(815, 32);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // sbServerMessage
+            // 
+            this.sbServerMessage.AutoSize = false;
+            this.sbServerMessage.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.sbServerMessage.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.sbServerMessage.Name = "sbServerMessage";
+            this.sbServerMessage.Size = new System.Drawing.Size(200, 25);
+            // 
+            // sbServerLabel2
+            // 
+            this.sbServerLabel2.AutoSize = false;
+            this.sbServerLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.sbServerLabel2.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.sbServerLabel2.Name = "sbServerLabel2";
+            this.sbServerLabel2.Size = new System.Drawing.Size(100, 25);
             // 
             // menuStrip1
             // 
@@ -91,7 +111,7 @@ namespace ComTest
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.btnStop);
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
+            this.splitContainer1.Panel2.Controls.Add(this.btnSend);
             this.splitContainer1.Panel2.Controls.Add(this.tbPort);
             this.splitContainer1.Panel2.Controls.Add(this.tbIP);
             this.splitContainer1.Panel2.Controls.Add(this.btnStart);
@@ -140,15 +160,24 @@ namespace ComTest
             this.tbClient.Size = new System.Drawing.Size(459, 237);
             this.tbClient.TabIndex = 1;
             // 
-            // button1
+            // btnStop
             // 
-            this.button1.Location = new System.Drawing.Point(46, 291);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(206, 28);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Send 1 Packet";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnStop.Location = new System.Drawing.Point(46, 69);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(147, 34);
+            this.btnStop.TabIndex = 6;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // btnSend
+            // 
+            this.btnSend.Location = new System.Drawing.Point(46, 291);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(206, 28);
+            this.btnSend.TabIndex = 5;
+            this.btnSend.Text = "Send 1 Packet";
+            this.btnSend.UseVisualStyleBackColor = true;
             // 
             // tbPort
             // 
@@ -184,40 +213,10 @@ namespace ComTest
             this.tbServerPort.TabIndex = 1;
             this.tbServerPort.Text = "9001";
             // 
-            // sbServerMessage
-            // 
-            this.sbServerMessage.AutoSize = false;
-            this.sbServerMessage.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.sbServerMessage.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.sbServerMessage.Name = "sbServerMessage";
-            this.sbServerMessage.Size = new System.Drawing.Size(200, 25);
-            // 
-            // sbServerLabel2
-            // 
-            this.sbServerLabel2.AutoSize = false;
-            this.sbServerLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.sbServerLabel2.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.sbServerLabel2.Name = "sbServerLabel2";
-            this.sbServerLabel2.Size = new System.Drawing.Size(100, 25);
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // btnStop
-            // 
-            this.btnStop.Location = new System.Drawing.Point(46, 69);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(147, 34);
-            this.btnStop.TabIndex = 6;
-            this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // FormServer
             // 
@@ -230,7 +229,7 @@ namespace ComTest
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormServer";
             this.Text = "Tcp Server";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormServer_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormServer_FormClosing);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -257,7 +256,7 @@ namespace ComTest
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TextBox tbServer;
         private System.Windows.Forms.TextBox tbClient;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.TextBox tbIP;
         private System.Windows.Forms.Button btnStart;

@@ -27,7 +27,6 @@ namespace ComClient
             //sock.Send(bArr);
 
             int ret = sock.Send(Encoding.Default.GetBytes(tbClient.Text));
-
             if (ret > 0) sbMessage.Text = $"{ret} byte(s) send success.";
         }
     }
