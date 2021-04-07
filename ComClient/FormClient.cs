@@ -41,9 +41,17 @@ namespace ComClient
 
         private void FormClient_Load(object sender, EventArgs e)
         {
+            int x1, y1, x2, y2;
             StringBuilder sb = new StringBuilder(512);
             GetPrivateProfileString("Comm","IP","127.0.0.1", sb, 512, ".\\ComClient.ini"); init_IP = sb.ToString();     // Section [Comm]   , Key [IP   Port]  , ........ FileName  : ComClient.ini
-            GetPrivateProfileString("Comm","Port","9001", sb, 512, ".\\ComClient.ini"); init_Port = int.Parse(sb.ToString());     
+            GetPrivateProfileString("Comm","Port","9001", sb, 512, ".\\ComClient.ini"); init_Port = int.Parse(sb.ToString());
+            GetPrivateProfileString("Form", "LocX", $"0", sb, 512, ".\\ComClient.ini"); x1 = int.Parse(sb.ToString());
+            GetPrivateProfileString("Form", "LocY", $"0", sb, 512, ".\\ComClient.ini"); y1 = int.Parse(sb.ToString());
+            GetPrivateProfileString("Form", "SizeX", $"500", sb, 512, ".\\ComClient.ini"); x2 = int.Parse(sb.ToString());
+            GetPrivateProfileString("Form", "SizeY", $"500", sb, 512, ".\\ComClient.ini"); y2 = int.Parse(sb.ToString());
+
+            Location = new Point(x1, y1);
+            Size = new Size(x2, y2);
             tbIP.Text = init_IP;
             tbPort.Text = $"{init_Port}";
         }
